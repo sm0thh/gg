@@ -88,6 +88,9 @@ def track_to_dict(item: dict) -> dict:
 
 # ── API Routes ───────────────────────────────────────────────────────────────
 
+async def handle_root(request):
+    return web.json_response({"status": "ok", "message": "TG Music Bot API is running!", "time": int(time.time())})
+
 async def handle_health(request):
     return web.json_response({"status": "ok", "time": int(time.time())})
 
@@ -281,6 +284,7 @@ async def keep_alive():
 async def main():
     app = web.Application(middlewares=[cors_middleware])
 
+    app.router.add_get("/",                  handle_root)
     app.router.add_get("/health",            handle_health)
     app.router.add_get("/api/status",        handle_status)
     app.router.add_get("/api/config",        handle_config)
